@@ -1,0 +1,29 @@
+  .header_title{
+    color: white;
+    max-width: fit-content;
+    margin: 0 2em;
+  }
+  
+  .header_title p {
+    font-size: 2em;
+    padding: 0;
+  }
+  
+  .header_options{
+    align-content: flex-end;
+    width: 60%;
+  }
+  
+  .header_options ul{
+    list-style-type: none;
+    flex-direction: row-reverse;
+    margin-right: 2em;
+    margin-top: 1em;
+  }
+  
+  .header_options li{
+    font-size: 19px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }

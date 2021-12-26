@@ -1,0 +1,71 @@
+.container{
+    display: flex;
+}
+.container form{
+    width: 100%;
+    height: 100%;
+}
+.container button[type="submit"]{
+    background-color: rgb(255, 123, 0);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 7px;
+    margin: 10px;
+    margin-left: auto;
+    font-weight: bold;
+    display: block;
+   
+}
+
+.container_image_preview {
+    border: 2px dotted rgb(201, 201, 201);
+    height: 250px;
+    margin: 1em auto 2em auto;
+    width: 80%;
+}
+.container_image_preview p{
+    color: rgb(194, 194, 194);
+    vertical-align: middle;
+    padding: 0;
+    margin: 0;
+    margin: auto 0;
+    
+}
+
+.container_image_preview p small{
+    font-size: 2em;
+    
+}
+
+.container_image_preview p span{
+    vertical-align: middle;
+    font-size: 5em;
+}
+
+.container_image_preview input{
+    display: none;
+}
+.container_image_preview label{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    text-align: center;
+    justify-content: center;
+}
+
+.preview_image{
+    width: 100%;
+    height: 100%;
+    display: none;
+    transform: translate(0, -100%);
+}
+
+.container_datepicker{
+    margin-right: 0.8em;
+    padding: 0;
+}
+.container_datepicker input{
+    padding: 15px;
+}
