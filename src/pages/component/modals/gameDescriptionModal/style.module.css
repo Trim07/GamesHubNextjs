@@ -1,3 +1,13 @@
+.modal_header{
+    border: none;
+    height: 1.5em !important;
+    margin: 1em;
+}
+.modal_header button{
+    margin: 0 0 0 97%;
+    font-size: 22px;
+}
+
 .modal_body{
     max-height: 500px;
     min-height: 500px;
@@ -59,6 +69,9 @@
     max-height: 100%;
     align-items: center;
     justify-content: center;
+}
+.developer{
+    color: gray;
 }
 .badge{
     padding: 0;

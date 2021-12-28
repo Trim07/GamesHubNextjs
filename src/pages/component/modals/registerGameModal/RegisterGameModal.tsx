@@ -1,15 +1,15 @@
-import { Button, Col, FloatingLabel, Form, Modal, Row, Image } from "react-bootstrap";
-import styles from "./styles.module.css"
-import { Editor } from '@tinymce/tinymce-react'; 
 import { useState, createRef } from "react";
-import { gamesHubAPI } from "../../../../api/gamesHubAPI";
 import $ from 'jquery';
 import axios from "axios";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
+import { Button, Col, FloatingLabel, Form, Modal, Row, Image } from "react-bootstrap";
+import cookieCutter from 'cookie-cutter';
+
+import { gamesHubAPI } from "../../../../api/gamesHubAPI";
 import InfoModal from "../infoModal/InfoModal";
 import { urlsAPI } from "../../../../../app.config";
-
+import styles from "./styles.module.css";
 
 
 export default function RegisterGameModal(props){
@@ -48,11 +48,13 @@ export default function RegisterGameModal(props){
     }
     
     try {
-      console.log('asd');
       
-      const response = await gamesHubAPI.post(urlsAPI.user_account.register_game, gameData)
+      const response = await gamesHubAPI.post(urlsAPI.user_account.register_game, gameData, {
+        headers: {
+          'Authorization': `Bearer ${cookieCutter.get('accesstoken')}`
+        }
+      })
       console.log(response);
-      
       
       if(response.status == 200){
         setShowInfoModal({show: true, message: "Parabens! Seu jogo acaba de ser registrado com sucesso :)"})
@@ -60,8 +62,6 @@ export default function RegisterGameModal(props){
         setShowInfoModal({show: true, message: "Opss :(, parece que ocorreu algum erro."})
       }
     } catch (error) {
-      console.log(error);
-      
       setShowInfoModal({show: true, message: "Opss :(, parece que ocorreu algum erro."})
     }
   

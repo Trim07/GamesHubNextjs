@@ -126,26 +126,30 @@ export default function UserHub(props){
 
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
 
 
   try {
-    
-    const userGamesData =  await gamesHubAPI.get('/my-account/my-games')
-    console.log(userGamesData);
-    
-    
-    if (userGamesData.status == 200){
-      console.log('s');
-      
-      return {
-        props: {status: userGamesData.status, data: userGamesData.data}
-      }
-    }else{
-      return {
-        props: {status: 500}
+
+    if (context.req.cookies){
+      const userGamesData =  await gamesHubAPI.get('/my-account/my-games',{
+        headers: {
+          'Authorization': `Bearer ${context.req.cookies['accesstoken']}`
+        }
+      })
+      if (userGamesData.status == 200){
+
+        return {
+          props: {status: userGamesData.status, data: userGamesData.data}
+        }
+      }else{
+        return {
+          props: {status: 500}
+        }
       }
     }
+    
+   
       
   } catch (error) {
     

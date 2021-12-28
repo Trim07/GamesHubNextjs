@@ -1,22 +1,23 @@
 import Router from "next/router";
+import Link from "next/link";
 import { useState } from "react";
 import { FloatingLabel, Form } from "react-bootstrap";
 import $ from  "jquery";
+import cookieCutter from 'cookie-cutter';
 
-import styles from "../../../styles/RegisterAccount.module.css";
-import { authBackendAPI } from "../../api/gamesHubAPI";
 import Header from "../component/fragments/header/Header";
 import InfoModal from "../component/modals/infoModal/InfoModal";
-import Link from "next/link";
+
+import styles from "../../../styles/RegisterAccount.module.css";
+
+import { authBackendAPI } from "../../api/gamesHubAPI";
 
 
 export default function LoginAccount(props?){
 
-  const [registerAccountFormData, setRegisterAccountFormData] = useState({
-    name: '',
+  const [loginFormData, setLoginFormData] = useState({
     email: '',
-    password: '',
-    confirm_password: ''
+    password: ''
   })
 
   const [showInfoModal, setShowInfoModal] = useState({
@@ -25,29 +26,31 @@ export default function LoginAccount(props?){
   });
 
 
-  const handleSubmitRegisterGameForm = async (e) => {
+  const handleSubmitLoginrGameForm = async (e) => {
     e.preventDefault();
 
-    if(registerAccountFormData.password != registerAccountFormData.confirm_password){
-      $('#confirm_password_input').css({'border': '1px solid red'});
-      setShowInfoModal({show: true, message: "As senhas devem ser iguais, verifique e tente novamente"})
-      return
-    }
-
     try {
-      const response = await authBackendAPI.post('/register', registerAccountFormData)
+      const response = await authBackendAPI.post('/login', loginFormData)
       if(response.status == 200){
+        cookieCutter.set('accesstoken', response.data['access_token'], {
+          path: '/'
+        });
         setShowInfoModal({
           show: true,
-          message: "Seu registro foi criado com sucesso, em alguns instantes iremos redirecionar você"
-        })
+          message: "Registro autenticado com sucesso, em alguns instantes iremos redirecionar você"
+        });
+
+        Router.push('/');
         setTimeout(() => {Router.push('/')}, 3000);
+        
       }
       
     } catch (error) {
+      console.log('as');
+      
       setShowInfoModal({
         show: true,
-        message: "Opss, ocorreu algum erro ao tentarmos realizar seu cadastro, tente novamente mais tarde :("
+        message: "Opss, ocorreu algum erro ao tentarmos autorizar seu cadastro, tente novamente mais tarde :("
       })
     }
   }
@@ -60,8 +63,8 @@ export default function LoginAccount(props?){
           <Link href="/">
             <a className="btn">Pagina inicial</a>
           </Link>
-          <Link href="/auth/login">
-            <a className="btn">Register</a>
+          <Link href="/auth/register">
+            <a className="btn">Registrar-se</a>
           </Link>
         </div>
       </Header>
@@ -73,26 +76,26 @@ export default function LoginAccount(props?){
           </div>
           <div className={styles.form_body}>
             <Form>
-              <FloatingLabel label="Nome" className="mb-3">
-                <Form.Control 
-                  type="text" 
-                  placeholder="Nome" 
-                  maxLength={100} 
-                  onBlur={(e)=>setRegisterAccountFormData(prevState=>({...prevState, name: e.target.value}))}
-                />
-              </FloatingLabel>
               <FloatingLabel label="Email" className="mb-3">
                 <Form.Control 
                   type="email" 
                   placeholder="Email" 
+                  maxLength={100} 
+                  onBlur={(e)=>setLoginFormData(prevState=>({...prevState, email: e.target.value}))}
+                />
+              </FloatingLabel>
+              <FloatingLabel label="Senha" className="mb-3">
+                <Form.Control 
+                  type="password" 
+                  placeholder="Senha" 
                   maxLength={100}
-                  onBlur={(e)=>setRegisterAccountFormData(prevState=>({...prevState, email: e.target.value}))}
+                  onBlur={(e)=>setLoginFormData(prevState=>({...prevState, password: e.target.value}))}
                 />
               </FloatingLabel>
               <button 
                 className={styles.submit_button} 
-                onClick={(e)=>handleSubmitRegisterGameForm(e)}>
-                  Registrar
+                onClick={(e)=>handleSubmitLoginrGameForm(e)}>
+                  Login
               </button>
             </Form>
           </div>

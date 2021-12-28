@@ -40,7 +40,8 @@ export default function RegisterAccount(props?){
         setShowInfoModal({
           show: true,
           message: "Seu registro foi criado com sucesso, em alguns instantes iremos redirecionar você"
-        })
+        });
+        
         setTimeout(() => {Router.push('/')}, 3000);
       }
       
